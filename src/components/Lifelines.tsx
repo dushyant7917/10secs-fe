@@ -1,13 +1,16 @@
 interface Props {
     handleFiftyFifty: () => void;
+    handleTwoX: () => void;
+    fiftyFiftyLeft: number;
+    twoXLeft: number;
 }
 
-function Lifelines({ handleFiftyFifty }: Props) {
+function Lifelines({ handleFiftyFifty, handleTwoX, fiftyFiftyLeft, twoXLeft }: Props) {
     return (
         <span>
-            <button className="btn btn-accent" onClick={handleFiftyFifty}>50:50</button>
+            {(fiftyFiftyLeft? <button className="btn btn-accent" onClick={handleFiftyFifty} >50:50</button> : null)}
             {" "}
-            <button className="btn btn-primary">2x</button>
+            {(twoXLeft? <button className="btn btn-primary" onClick={handleTwoX} >2x</button> : null)}
         </span>
     )
 }

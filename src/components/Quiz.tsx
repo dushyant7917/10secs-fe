@@ -8,6 +8,10 @@ interface Props {
     rightOptionIdx: number;
     handleNext: () => void;
     handleOptionSelected: (isCorrect: boolean) => void;
+    handleFiftyFifty: () => void;
+    handleTwoX: () => void;
+    fiftyFiftyLeft: number;
+    twoXLeft: number;
 }
 
 const getRandomWrongOptions = (rightOption: number) => {
@@ -25,7 +29,7 @@ const getRandomWrongOptions = (rightOption: number) => {
     return randomOptions;
 };
 
-function Quiz({ question, options, rightOptionIdx, handleNext, handleOptionSelected }: Props) {
+function Quiz({ question, options, rightOptionIdx, handleNext, handleOptionSelected, handleFiftyFifty, handleTwoX, fiftyFiftyLeft, twoXLeft }: Props) {
     const [timeOver, setTimeOver] = useState(false);
     const [optionSelected, setOptionSelected] = useState(-1);
     const [optionsRemoved, setOptionsRemoved] = useState<number[]>([]);
@@ -40,8 +44,9 @@ function Quiz({ question, options, rightOptionIdx, handleNext, handleOptionSelec
         setTimeOver(true);
     }
 
-    const handleFiftyFifty = () => {
+    const eliminateTwoWrongOptions = () => {
         setOptionsRemoved(getRandomWrongOptions(rightOptionIdx));
+        handleFiftyFifty();
     }
 
     const getOptionStyle = (idx: number) => {
@@ -87,7 +92,12 @@ function Quiz({ question, options, rightOptionIdx, handleNext, handleOptionSelec
               </button>) : null
             ))}
             {timeOver? null : (
-                <Lifelines handleFiftyFifty={handleFiftyFifty} />
+                <Lifelines
+                    handleFiftyFifty={eliminateTwoWrongOptions}
+                    handleTwoX={handleTwoX}
+                    fiftyFiftyLeft={fiftyFiftyLeft}
+                    twoXLeft={twoXLeft}
+                />
             )}
             {timeOver? <br /> : null}
             {timeOver? (
